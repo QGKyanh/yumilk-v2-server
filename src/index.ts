@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db";
+import apiRoutes from "./routes/index";
 
 //Load from env first
 dotenv.config();
@@ -13,6 +14,9 @@ const app = express();
 //Middlewares
 app.use(cors());
 app.use(express.json({ limit: "1mb" })); //Secured against DoS
+
+//Routes
+app.use("/api", apiRoutes);
 
 //Route test
 app.get("/get", (_req, res) => {

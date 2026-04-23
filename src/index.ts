@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 import connectDB from "./config/db";
 import apiRoutes from "./routes/index";
+import { errorHandler } from "./middlewares/errorHandler";
 
 //Load from env first
 dotenv.config();
@@ -22,6 +23,9 @@ app.use("/api", apiRoutes);
 app.get("/get", (_req, res) => {
   res.send("Yumilk v2 is running");
 });
+
+//Error Handler must be at last
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

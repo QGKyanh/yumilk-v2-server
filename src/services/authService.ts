@@ -1,18 +1,15 @@
 import bcrypt from "bcrypt";
 import User, { IUser } from "../models/User";
+import { AppError } from "../utils/AppError";
+import { RegisterInput } from "../schemas/authSchema";
 
-export const registerUser = async (userData: Partial<IUser>) => {
+export const registerUser = async (userData: RegisterInput) => {
   const { name, email, password } = userData;
-
-  //Check if essential data is provided
-  if (!name || !email || !password) {
-    throw new Error("Missing required fields");
-  }
 
   //Check if the user is existed
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw new Error("Email already exists");
+    throw new AppError("Email đã tồn tại", 400);
   }
 
   //Hashing password

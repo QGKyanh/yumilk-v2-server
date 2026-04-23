@@ -1,25 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import * as authService from "../services/authService";
+import { RegisterInput } from "../schemas/authSchema";
 
-export const register = async (req: Request, res: Response) => {
-  try {
-    //Retrieve data from req body
-    const { name, email, password } = req.body;
+type RegisterRequest = Request<Record<string, never>, any, RegisterInput>;
 
-    //Simple validate
-    if (!name || !email || !password) {
-      res.status(400).json({ message: "Vui lòng điền đầy đủ thông tin" });
-      return;
-    }
+export const register = async (req: RegisterRequest, res: Response) => {
+  const user = await authService.registerUser(req.body);
 
-    //Call service
-    const user = await authService.registerUser({ name, email, password });
-
-    res.status(201).json({
-      message: "Đăng ký tài khoản thành công",
-      user,
-    });
-  } catch (error: any) {
-    res.status(400).json({ message: error.message });
-  }
+  return res.status(201).json({
+    success: true,
+    user,
+  });
 };

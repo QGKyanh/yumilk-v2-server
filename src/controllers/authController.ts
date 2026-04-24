@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import * as authService from "../services/authService";
-import { RegisterInput } from "../schemas/authSchema";
-import { catchAsync } from "../utils/catchAsync";
+import type { Request, Response } from "express";
+import * as authService from "../services/authService.js";
+import type { RegisterInput } from "../schemas/authSchema.js";
+import { catchAsync } from "../utils/catchAsync.js";
 
 type RegisterRequest = Request<Record<string, never>, any, RegisterInput>;
 

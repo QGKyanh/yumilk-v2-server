@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import User, { IUser } from "../models/User";
-import { AppError } from "../utils/AppError";
-import { RegisterInput } from "../schemas/authSchema";
+import User from "../models/User.js";
+import { AppError } from "../utils/AppError.js";
+import type { RegisterInput } from "../schemas/authSchema.js";
 
 export const registerUser = async (userData: RegisterInput) => {
   const { name, email, password } = userData;

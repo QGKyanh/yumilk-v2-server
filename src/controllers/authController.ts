@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import * as authService from "../services/authService";
 import { RegisterInput } from "../schemas/authSchema";
 import { catchAsync } from "../utils/catchAsync";

@@ -1,9 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import connectDB from "./config/db";
-import apiRoutes from "./routes/index";
-import { errorHandler } from "./middlewares/errorHandler";
+import connectDB from "./config/db.js";
+import apiRoutes from "./routes/index.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 //Load from env first
 dotenv.config();

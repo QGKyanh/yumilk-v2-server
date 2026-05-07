@@ -25,3 +25,12 @@ export const registerSchema = z
   .strict();
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+
+export const loginSchema = z
+  .object({
+    email: z.email("Email không đúng định dạng").toLowerCase(),
+    password: z.string().min(1, "Vui lòng nhập mật khẩu"),
+  })
+  .strict();
+
+export type LoginInput = z.infer<typeof registerSchema>;

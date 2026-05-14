@@ -33,4 +33,4 @@ export const loginSchema = z
   })
   .strict();
 
-export type LoginInput = z.infer<typeof registerSchema>;
+export type LoginInput = z.infer<typeof loginSchema>;

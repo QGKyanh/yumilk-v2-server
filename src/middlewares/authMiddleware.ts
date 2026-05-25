@@ -4,14 +4,14 @@ import { AppError } from "../utils/AppError.js";
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-//Mở rộng interface Request của Express để chứa biến "user"
-declare global {
-  namespace Express {
-    interface Request {
-      user?: any; //Nên thay any bằng Interface, ví dụ IUser
-    }
-  }
-}
+// //Mở rộng interface Request của Express để chứa biến "user"
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user?: any; //Nên thay any bằng Interface, ví dụ IUser
+//     }
+//   }
+// }
 
 interface DecodedToken {
   id: string;
@@ -22,7 +22,7 @@ interface DecodedToken {
 
 //Authentication first
 export const protect = catchAsync(
-  async (req: Request, _res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     //Lấy token từ header
     let token;
     if (
@@ -52,7 +52,7 @@ export const protect = catchAsync(
       }
 
       //Cấp quyền đi tiếp
-      req.user = currentUser;
+      res.locals.user = currentUser;
       next();
     } catch (error) {
       return next(new AppError("Token không hợp lệ hoặc đã hết hạn", 401));
@@ -62,9 +62,11 @@ export const protect = catchAsync(
 
 //Authorization
 export const restrictTo = (...roles: string[]) => {
-  return (req: Request, _res: Response, next: NextFunction) => {
+  return (_req: Request, res: Response, next: NextFunction) => {
     //Nếu role của user hiện tại không nằm trong danh sách cho phép
-    if (!req.user || !roles.includes(req.user.role)) {
+    const currentUser = res.locals.user;
+
+    if (!currentUser || !roles.includes(currentUser.role)) {
       return next(
         new AppError("Bạn không có quyền thực hiện hành động này", 403),
       );
